@@ -118,17 +118,33 @@ function ServerHop()
     local cursor = ""
 
     repeat
-        local url =
-            "https://games.roblox.com/v1/games/" .. PlaceId ..
-            "/servers/Public?sortOrder=Asc&limit=100" ..
-            (cursor ~= "" and "&cursor=" .. cursor or "")
+        local url = "https://games.roblox.com/v1/games/" .. PlaceId ..
+                    "/servers/Public?sortOrder=Asc&limit=100" ..
+                    (cursor ~= "" and "&cursor=" .. cursor or "")
 
         local response = request({
             Url = url,
             Method = "GET"
         })
 
-        local data = HttpService:JSONDecode(response.Body)
+        if not response or not response.Body then
+            warn("Failed to get server list or empty response.")
+            break
+        end
+
+        local success, data = pcall(function()
+            return HttpService:JSONDecode(response.Body)
+        end)
+
+        if not success or not data then
+            warn("Failed to decode JSON or data is nil.")
+            break
+        end
+
+        if not data.data then
+            warn("Data field missing in response.")
+            break
+        end
 
         for _, server in pairs(data.data) do
             if server.id ~= JobId and server.playing < server.maxPlayers then
@@ -145,6 +161,8 @@ function ServerHop()
             servers[math.random(1, #servers)],
             player
         )
+    else
+        warn("No suitable servers found to teleport to.")
     end
 end
 
