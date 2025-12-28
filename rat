@@ -112,7 +112,7 @@ local PlaceId = game.PlaceId
 local request = syn and syn.request or http_request or request
 assert(request, "No HTTP request function available")
 
-function ServerHop()
+local function ServerHop()
     local JobId = game.JobId
     local servers = {}
     local cursor = ""
@@ -131,6 +131,8 @@ function ServerHop()
             warn("Failed to get server list or empty response.")
             break
         end
+
+        print("Raw response body:", response.Body)  -- <-- Debug print added here
 
         local success, data = pcall(function()
             return HttpService:JSONDecode(response.Body)
