@@ -30,7 +30,7 @@ G2L["4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["4"]["BackgroundTransparency"] = 1;
 G2L["4"]["Size"] = UDim2.new(0, 390, 0, 77);
 G2L["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["4"]["Text"] = [[nil]];
+G2L["4"]["Text"] = [[idk what i was supposed to put here]];
 G2L["4"]["Name"] = [[vicdetec]];
 G2L["4"]["Position"] = UDim2.new(0.17282, 0, 0.07576, 0);
 
@@ -55,7 +55,7 @@ G2L["7"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["7"]["BackgroundTransparency"] = 1;
 G2L["7"]["Size"] = UDim2.new(0, 390, 0, 77);
 G2L["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["7"]["Text"] = [[nil]];
+G2L["7"]["Text"] = [[and here]];
 G2L["7"]["Name"] = [[status]];
 G2L["7"]["Position"] = UDim2.new(0.17282, 0, 0.75253, 0);
 
@@ -150,20 +150,25 @@ end
 
 local monstersfolder = workspace:WaitForChild("Monsters")
 
-for i, vic in ipairs(monstersfolder:GetChildren()) do
-    if vic.Name:match("^Vicious Bee") then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
-        while true do
-            if monstersfolder:FindFirstChild(vic.Name:match("^Vicious Bee")) then
-                print("there")
-            else
-                ServerHop()
-                break
+if monstersfolder then
+    local bee
+    for i, vic in ipairs(monstersfolder:GetChildren()) do
+        if vic.Name:match("^Vicious Bee") then
+            bee = vic
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
+            while true do
+                if bee then
+                    print("there")
+                else
+                    ServerHop()
+                    break
+                end
+                task.wait(1)
             end
-            task.wait(1)
+        else
+            ServerHop()
         end
-    else
-        ServerHop()
     end
 end
+
 return G2L["1"], require;
