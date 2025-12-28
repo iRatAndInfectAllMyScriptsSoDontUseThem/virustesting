@@ -32,11 +32,8 @@ local alertoutline = G2L["3"]
 local function alertvicious()
     alerttxt.TextTransparency = 1
     alertoutline.Transparency = 1
-    local textTween = ts:Create(alerttxt, TweenInfo.new(3), {TextTransparency = 0})
-    local outlineTween = ts:Create(alertoutline, TweenInfo.new(3), {Transparency = 0})
-    textTween:Play()
-    outlineTween:Play()
-    
+    ts:Create(alerttxt, TweenInfo.new(3), {TextTransparency = 0}):Play()
+    ts:Create(alertoutline, TweenInfo.new(3), {Transparency = 0}):Play()
     task.spawn(function()
         task.wait(10)
         ts:Create(alerttxt, TweenInfo.new(3), {TextTransparency = 1}):Play()
@@ -62,7 +59,6 @@ local function ServerHop()
         local JobId = game.JobId
         local servers = {}
         local cursor = ""
-        local dataValid = false
 
         repeat
             local url = "https://games.roblox.com/v1/games/" .. PlaceId .. "/servers/Public?sortOrder=Asc&limit=100" .. (cursor ~= "" and "&cursor=" .. cursor or "")
@@ -73,15 +69,12 @@ local function ServerHop()
             end)
 
             if ok and type(data) == "table" and data.data then
-                dataValid = true
                 for _, server in pairs(data.data) do
                     if server.id ~= JobId and server.playing < server.maxPlayers then
                         table.insert(servers, server.id)
                     end
                 end
                 cursor = data.nextPageCursor
-            else
-                dataValid = false
             end
         until cursor == nil or #servers > 0
 
@@ -101,7 +94,6 @@ end
 
 local monstersfolder = workspace:WaitForChild("Monsters")
 local bee = nil
-
 for _, vic in ipairs(monstersfolder:GetChildren()) do
     if vic.Name:match("^Vicious Bee") then
         bee = vic
@@ -110,13 +102,14 @@ for _, vic in ipairs(monstersfolder:GetChildren()) do
 end
 
 if bee then
+    alerttxt.Text = "woah you got vicious bee crazy"
     alertvicious()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
-    task.spawn(function()
-        repeat
-            task.wait(1)
-        until not bee or not bee.Parent
-        ServerHop()
+    
+    bee:GetPropertyChangedSignal("Parent"):Connect(function()
+        if not bee or not bee.Parent then
+            ServerHop()
+        end
     end)
 else
     ServerHop()
