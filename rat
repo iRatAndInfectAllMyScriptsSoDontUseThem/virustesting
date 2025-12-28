@@ -131,39 +131,35 @@ local function ServerHop()
         local servers = {}
         local cursor = ""
 
-        local successHop = false
+        local dataValid = false
 
         repeat
             local url = "https://games.roblox.com/v1/games/" .. PlaceId ..
                         "/servers/Public?sortOrder=Asc&limit=100" ..
                         (cursor ~= "" and "&cursor=" .. cursor or "")
 
-            local response = request({
-                Url = url,
-                Method = "GET"
-            })
-
+            local response = request({ Url = url, Method = "GET" })
             local data
-            local ok, err = pcall(function()
+            local ok = pcall(function()
                 data = HttpService:JSONDecode(response and response.Body or "{}")
             end)
 
-            if not ok or type(data) ~= "table" or not data.data then
+            if ok and type(data) == "table" and data.data then
+                dataValid = true
+                for _, server in pairs(data.data) do
+                    if server.id ~= JobId and server.playing < server.maxPlayers then
+                        table.insert(servers, server.id)
+                    end
+                end
+                cursor = data.nextPageCursor
+            else
                 if not exec then
                     exec = true
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
                 end
-                task.wait(5)
-                break -- retry in next while iteration
+                dataValid = false
+                break -- retry outer loop
             end
-
-            for _, server in pairs(data.data) do
-                if server.id ~= JobId and server.playing < server.maxPlayers then
-                    table.insert(servers, server.id)
-                end
-            end
-
-            cursor = data.nextPageCursor
         until cursor == nil or #servers > 0
 
         if #servers > 0 then
@@ -173,9 +169,9 @@ local function ServerHop()
                 player
             )
             break
-        else
-            task.wait(0.05) -- wait before retrying
         end
+
+        task.wait(1)
     end
 end
 
