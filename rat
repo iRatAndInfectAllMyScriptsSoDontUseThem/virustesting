@@ -123,6 +123,8 @@ local PlaceId = game.PlaceId
 local request = syn and syn.request or http_request or request
 assert(request, "No HTTP request function available")
 
+local exec = false
+
 local function ServerHop()
     while true do
         local JobId = game.JobId
@@ -173,7 +175,10 @@ local function ServerHop()
             )
             break
         else
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
+            if exec == false then
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
+                exec = true
+            end
             ServerHop()
             task.wait(5)
         end
