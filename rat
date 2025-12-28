@@ -132,8 +132,6 @@ local function ServerHop()
             break
         end
 
-        print("Raw response body:", response.Body)  -- <-- Debug print added here
-
         local success, data = pcall(function()
             return HttpService:JSONDecode(response.Body)
         end)
