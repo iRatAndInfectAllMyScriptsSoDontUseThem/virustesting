@@ -153,7 +153,7 @@ local monstersfolder = workspace:WaitForChild("Monsters")
 if monstersfolder then
     local bee
     for i, vic in ipairs(monstersfolder:GetChildren()) do
-        if vic.Name:match("^Vicious Bee") then
+        if vic.Name:match("^Vicious Bee") then -- here i want to detect if there IS a match, not if it matches
             bee = vic
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
             repeat
@@ -161,7 +161,7 @@ if monstersfolder then
             until not bee or not bee.Parent
             ServerHop()
         else
-            print("not vicious")
+            ServerHop()
         end
     end
 end
