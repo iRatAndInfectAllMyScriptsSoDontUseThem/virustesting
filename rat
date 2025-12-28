@@ -50,11 +50,6 @@ local function alertbroke()
     alerttxt.Text = "oh nooooooo your thing broke haha"
 end
 
-local function viciousbeealert()
-    alertvicious()
-    alerttxt.Text = "woah you got vicious bee crazy"
-end
-
 local exec = false
 
 local function ServerHop()
@@ -117,11 +112,12 @@ end
 if bee then
     alertvicious()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
-    repeat
-        print("there")
-        task.wait(1)
-    until not bee or not bee.Parent
-    ServerHop()
+    task.spawn(function()
+        repeat
+            task.wait(1)
+        until not bee or not bee.Parent
+        ServerHop()
+    end)
 else
     ServerHop()
 end
