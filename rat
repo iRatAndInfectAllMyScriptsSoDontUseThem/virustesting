@@ -71,7 +71,6 @@ for _, vic in ipairs(monstersfolder:GetChildren()) do
 end
 
 if bee then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
     repeat
         print("there")
         task.wait(1)
@@ -79,4 +78,8 @@ if bee then
     ServerHop()
 else
     ServerHop()
+end
+
+if bee then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
 end
