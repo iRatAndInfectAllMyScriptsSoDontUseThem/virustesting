@@ -150,26 +150,21 @@ end
 
 local monstersfolder = workspace:WaitForChild("Monsters")
 
-if monstersfolder then
-    local bee
-    for i, vic in ipairs(monstersfolder:GetChildren()) do
-        if vic.Name:match("^Vicious Bee") then
-            bee = vic
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
-            while true do
-                if bee then
-                    print("there")
-                else
-                    ServerHop()
-                    break
-                end
-                task.wait(1)
-            end
-        else
-            ServerHop()
+local hasBee = false
+for _, vic in ipairs(monstersfolder:GetChildren()) do
+    if vic.Name:match("^Vicious Bee") then
+        hasBee = true
+        bee = vic
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
+        while bee and bee.Parent do
+            print("there")
+            task.wait(1)
         end
+        break
     end
-else
+end
+
+if not hasBee then
     ServerHop()
 end
 
