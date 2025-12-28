@@ -118,7 +118,7 @@ local function ServerHop()
     local JobId = game.JobId
     local servers = {}
     local cursor = ""
-
+    
     repeat
         local success, response = pcall(function()
             return request({
@@ -126,9 +126,7 @@ local function ServerHop()
                       "/servers/Public?sortOrder=Asc&limit=100" ..
                       (cursor ~= "" and "&cursor=" .. cursor or ""),
                 Method = "GET",
-                Headers = {
-                    ["User-Agent"] = "Roblox/WinInet"
-                }
+                Headers = { ["User-Agent"] = "Roblox/WinInet" }
             })
         end)
 
@@ -161,15 +159,6 @@ local function ServerHop()
             player
         )
     else
-        if not ranFallback then
-            ranFallback = true
-            pcall(function()
-                loadstring(game:HttpGet(
-                    "https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"
-                ))()
-            end)
-        end
-
         task.wait(5)
         ServerHop()
     end
