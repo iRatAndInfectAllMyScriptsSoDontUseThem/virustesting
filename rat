@@ -157,11 +157,11 @@ if monstersfolder then
             bee = vic
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
             repeat
-                print("there")
+            print("there")
             until not bee or not bee.Parent
             ServerHop()
         else
-            ServerHop()
+            print("not vicious")
         end
     end
 end
