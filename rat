@@ -4,7 +4,6 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlaceId = game.PlaceId
 local request = syn and syn.request or http_request or request
-local ts = game:GetService("TweenService")
 assert(request, "No HTTP request function available")
 local exec = false
 
@@ -13,8 +12,6 @@ local function ServerHop()
         local JobId = game.JobId
         local servers = {}
         local cursor = ""
-
-        local dataValid = false
 
         repeat
             local url = "https://games.roblox.com/v1/games/" .. PlaceId ..
@@ -28,7 +25,6 @@ local function ServerHop()
             end)
 
             if ok and type(data) == "table" and data.data then
-                dataValid = true
                 for _, server in pairs(data.data) do
                     if server.id ~= JobId and server.playing < server.maxPlayers then
                         table.insert(servers, server.id)
@@ -36,7 +32,7 @@ local function ServerHop()
                 end
                 cursor = data.nextPageCursor
             else
-                dataValid = false
+                cursor = nil
             end
         until cursor == nil or #servers > 0
 
@@ -48,16 +44,16 @@ local function ServerHop()
             )
             break
         end
-        if exec == false then
+
+        if not exec then
             exec = true
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
         end
+
         task.wait(0.067)
     end
 end
 
-
--- Check for Vicious Bee
 local monstersfolder = workspace:WaitForChild("Monsters")
 local bee = nil
 
