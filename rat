@@ -28,6 +28,7 @@ assert(request, "No HTTP request function available")
 
 local alerttxt = G2L["2"]
 local alertoutline = G2L["3"]
+local exec = false
 
 local function alertvicious()
     alerttxt.TextTransparency = 1
@@ -46,8 +47,6 @@ local function alertbroke()
     ts:Create(alerttxt, TweenInfo.new(3), {TextTransparency = 0}):Play()
     alerttxt.Text = "oh nooooooo your thing broke haha"
 end
-
-local exec = false
 
 local function ServerHop()
     while true do
@@ -105,12 +104,7 @@ if bee then
     alerttxt.Text = "woah you got vicious bee crazy"
     alertvicious()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
-    
-    bee:GetPropertyChangedSignal("Parent"):Connect(function()
-        if not bee or not bee.Parent then
-            ServerHop()
-        end
-    end)
+    task.spawn(ServerHop) -- immediately start server hop in background
 else
     ServerHop()
 end
