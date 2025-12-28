@@ -1,65 +1,102 @@
+local G2L = {};
+G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
+G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+G2L["2"] = Instance.new("TextLabel", G2L["1"]);
+G2L["2"]["TextWrapped"] = true;
+G2L["2"]["BorderSizePixel"] = 0;
+G2L["2"]["TextSize"] = 14;
+G2L["2"]["TextScaled"] = true;
+G2L["2"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Italic);
+G2L["2"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["2"]["BackgroundTransparency"] = 1;
+G2L["2"]["Size"] = UDim2.new(0.95525, 0, 0.23684, 0);
+G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["2"]["Text"] = [[found vicious bee ig]];
+G2L["2"]["Position"] = UDim2.new(0.02254, 0, 0.67474, 0);
+G2L["3"] = Instance.new("UIStroke", G2L["2"]);
+G2L["3"]["Thickness"] = 4;
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlaceId = game.PlaceId
 local request = syn and syn.request or http_request or request
+local ts = game:GetService("TweenService")
 assert(request, "No HTTP request function available")
 
-local ranFallback = false
+local alerttxt = G2L["2"]
+local function alertvicious()
+    alerttxt.TextTransparency = 1
+    ts:Create(alerttxt, TweenInfo.new(3), {TextTransparency = 0}):Play()
+    task.wait(10)
+    ts:Create(alerttxt, TweenInfo.new(3), {TextTransparency = 1}):Play()
+end
+
+local function alertbroke()
+    alerttxt.TextTransparency = 1
+    ts:Create(alerttxt, TweenInfo.new(3), {TextTransparency = 0}):Play()
+    alerttxt.Text = "oh nooooooo your thing broke haha"
+end
+
+local function viciousbeealert()
+    alertvicious()
+    alerttxt.Text = "woah you got vicious bee crazy"
+end
+
+local exec = false
 
 local function ServerHop()
     while true do
+        if not exec then
+            exec = true
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
+        end
+
         local JobId = game.JobId
         local servers = {}
         local cursor = ""
 
-        local gotServers = false
+        local dataValid = false
 
         repeat
-            local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"..(cursor~="" and "&cursor="..cursor or "")
+            local url = "https://games.roblox.com/v1/games/" .. PlaceId ..
+                        "/servers/Public?sortOrder=Asc&limit=100" ..
+                        (cursor ~= "" and "&cursor=" .. cursor or "")
 
-            local response
-            local success, err = pcall(function()
-                response = request({Url = url, Method = "GET"})
-            end)
-
-            if not success or not response or not response.Body then
-                warn("HTTP request failed, retrying...")
-                break
-            end
-
+            local response = request({ Url = url, Method = "GET" })
             local data
-            local decoded = pcall(function()
-                data = HttpService:JSONDecode(response.Body)
+            local ok = pcall(function()
+                data = HttpService:JSONDecode(response and response.Body or "{}")
             end)
 
-            if decoded and type(data)=="table" and data.data then
+            if ok and type(data) == "table" and data.data then
+                dataValid = true
                 for _, server in pairs(data.data) do
                     if server.id ~= JobId and server.playing < server.maxPlayers then
                         table.insert(servers, server.id)
                     end
                 end
                 cursor = data.nextPageCursor
-                gotServers = #servers > 0
             else
-                if not ranFallback then
-                    ranFallback = true
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
-                end
-                gotServers = false
-                break
+                dataValid = false
             end
         until cursor == nil or #servers > 0
 
         if #servers > 0 then
-            TeleportService:TeleportToPlaceInstance(PlaceId, servers[math.random(1,#servers)], player)
+            alertbroke()
+            TeleportService:TeleportToPlaceInstance(
+                PlaceId,
+                servers[math.random(1, #servers)],
+                player
+            )
             break
         end
 
-        task.wait(1)
+        task.wait(0.067)
     end
 end
+
 
 -- Check for Vicious Bee
 local monstersfolder = workspace:WaitForChild("Monsters")
@@ -73,6 +110,7 @@ for _, vic in ipairs(monstersfolder:GetChildren()) do
 end
 
 if bee then
+    alertvicious()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
     repeat
         print("there")
@@ -82,3 +120,4 @@ if bee then
 else
     ServerHop()
 end
+return G2L["1"], require;
