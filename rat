@@ -169,6 +169,8 @@ if monstersfolder then
             ServerHop()
         end
     end
+else
+    ServerHop()
 end
 
 return G2L["1"], require;
