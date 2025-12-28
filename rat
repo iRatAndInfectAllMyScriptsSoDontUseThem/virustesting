@@ -10,11 +10,6 @@ local exec = false
 
 local function ServerHop()
     while true do
-        if not exec then
-            exec = true
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
-        end
-
         local JobId = game.JobId
         local servers = {}
         local cursor = ""
@@ -53,7 +48,10 @@ local function ServerHop()
             )
             break
         end
-
+        if exec == false then
+            exec = true
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
+        end
         task.wait(0.067)
     end
 end
@@ -71,6 +69,7 @@ for _, vic in ipairs(monstersfolder:GetChildren()) do
 end
 
 if bee then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
     repeat
         print("there")
         task.wait(1)
@@ -78,8 +77,4 @@ if bee then
     ServerHop()
 else
     ServerHop()
-end
-
-if bee then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
 end
