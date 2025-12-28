@@ -55,7 +55,7 @@ G2L["7"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["7"]["BackgroundTransparency"] = 1;
 G2L["7"]["Size"] = UDim2.new(0, 390, 0, 77);
 G2L["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["7"]["Text"] = [[and here]];
+G2L["7"]["Text"] = [[Status: Ready]];
 G2L["7"]["Name"] = [[status]];
 G2L["7"]["Position"] = UDim2.new(0.17282, 0, 0.75253, 0);
 
@@ -150,22 +150,20 @@ end
 
 local monstersfolder = workspace:WaitForChild("Monsters")
 
-local hasBee = false
-for _, vic in ipairs(monstersfolder:GetChildren()) do
-    if vic.Name:match("^Vicious Bee") then
-        hasBee = true
-        bee = vic
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
-        while bee and bee.Parent do
-            print("there")
-            task.wait(1)
+if monstersfolder then
+    local bee
+    for i, vic in ipairs(monstersfolder:GetChildren()) do
+        if vic.Name:match("^Vicious Bee") then
+            bee = vic
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
+            repeat
+                print("there")
+            until not bee or not bee.Parent
+            ServerHop()
+        else
+            ServerHop()
         end
-        break
     end
-end
-
-if not hasBee then
-    ServerHop()
 end
 
 return G2L["1"], require;
