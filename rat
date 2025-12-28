@@ -55,7 +55,7 @@ G2L["7"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["7"]["BackgroundTransparency"] = 1;
 G2L["7"]["Size"] = UDim2.new(0, 390, 0, 77);
 G2L["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["7"]["Text"] = [[Status: Ready]];
+G2L["7"]["Text"] = [[here too ig]];
 G2L["7"]["Name"] = [[status]];
 G2L["7"]["Position"] = UDim2.new(0.17282, 0, 0.75253, 0);
 
