@@ -1,0 +1,168 @@
+print("create ui")
+
+local G2L = {};
+
+-- StarterGui.ScreenGui
+G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
+G2L["1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+
+-- StarterGui.ScreenGui.Frame
+G2L["2"] = Instance.new("Frame", G2L["1"]);
+G2L["2"]["BorderSizePixel"] = 0;
+G2L["2"]["BackgroundColor3"] = Color3.fromRGB(46, 46, 46);
+G2L["2"]["Size"] = UDim2.new(0, 596, 0, 396);
+G2L["2"]["Position"] = UDim2.new(0.39973, 0, 0.29158, 0);
+G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+
+-- StarterGui.ScreenGui.Frame.UICorner
+G2L["3"] = Instance.new("UICorner", G2L["2"]);
+G2L["3"]["CornerRadius"] = UDim.new(0, 15);
+
+-- StarterGui.ScreenGui.Frame.vicdetec
+G2L["4"] = Instance.new("TextLabel", G2L["2"]);
+G2L["4"]["TextWrapped"] = true;
+G2L["4"]["BorderSizePixel"] = 0;
+G2L["4"]["TextSize"] = 14;
+G2L["4"]["TextScaled"] = true;
+G2L["4"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["4"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Italic);
+G2L["4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["4"]["BackgroundTransparency"] = 1;
+G2L["4"]["Size"] = UDim2.new(0, 390, 0, 77);
+G2L["4"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["4"]["Text"] = [[nil]];
+G2L["4"]["Name"] = [[vicdetec]];
+G2L["4"]["Position"] = UDim2.new(0.17282, 0, 0.07576, 0);
+
+-- StarterGui.ScreenGui.Frame.vicdetec.UIStroke
+G2L["5"] = Instance.new("UIStroke", G2L["4"]);
+G2L["5"]["Thickness"] = 5;
+
+-- StarterGui.ScreenGui.Frame.UIStroke
+G2L["6"] = Instance.new("UIStroke", G2L["2"]);
+G2L["6"]["Thickness"] = 5;
+G2L["6"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+-- StarterGui.ScreenGui.Frame.status
+G2L["7"] = Instance.new("TextLabel", G2L["2"]);
+G2L["7"]["TextWrapped"] = true;
+G2L["7"]["BorderSizePixel"] = 0;
+G2L["7"]["TextSize"] = 14;
+G2L["7"]["TextScaled"] = true;
+G2L["7"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["7"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Italic);
+G2L["7"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["7"]["BackgroundTransparency"] = 1;
+G2L["7"]["Size"] = UDim2.new(0, 390, 0, 77);
+G2L["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["7"]["Text"] = [[nil]];
+G2L["7"]["Name"] = [[status]];
+G2L["7"]["Position"] = UDim2.new(0.17282, 0, 0.75253, 0);
+
+-- StarterGui.ScreenGui.Frame.status.UIStroke
+G2L["8"] = Instance.new("UIStroke", G2L["7"]);
+G2L["8"]["Thickness"] = 5;
+
+-- StarterGui.ScreenGui.Frame.title
+G2L["9"] = Instance.new("TextLabel", G2L["2"]);
+G2L["9"]["TextWrapped"] = true;
+G2L["9"]["BorderSizePixel"] = 0;
+G2L["9"]["TextSize"] = 14;
+G2L["9"]["TextScaled"] = true;
+G2L["9"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["9"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Italic);
+G2L["9"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["9"]["BackgroundTransparency"] = 1;
+G2L["9"]["Size"] = UDim2.new(0, 390, 0, 77);
+G2L["9"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["9"]["Text"] = [[🤑Atlas Vic Hopper🤑]];
+G2L["9"]["Name"] = [[title]];
+G2L["9"]["Position"] = UDim2.new(0.17282, 0, 0.40152, 0);
+
+-- StarterGui.ScreenGui.Frame.title.UIStroke
+G2L["a"] = Instance.new("UIStroke", G2L["9"]);
+G2L["a"]["Thickness"] = 5;
+
+-- StarterGui.ScreenGui.Frame.subtitle
+G2L["b"] = Instance.new("TextLabel", G2L["2"]);
+G2L["b"]["TextWrapped"] = true;
+G2L["b"]["BorderSizePixel"] = 0;
+G2L["b"]["TextSize"] = 14;
+G2L["b"]["TextScaled"] = true;
+G2L["b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["b"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSSm.json]], Enum.FontWeight.Bold, Enum.FontStyle.Italic);
+G2L["b"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["b"]["BackgroundTransparency"] = 1;
+G2L["b"]["Size"] = UDim2.new(0, 390, 0, 28);
+G2L["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["b"]["Text"] = [[by NotAVirus]];
+G2L["b"]["Name"] = [[subtitle]];
+G2L["b"]["Position"] = UDim2.new(0.17282, 0, 0.59596, 0);
+
+-- StarterGui.ScreenGui.Frame.subtitle.UIStroke
+G2L["c"] = Instance.new("UIStroke", G2L["b"]);
+G2L["c"]["Thickness"] = 5;
+
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local PlaceId = game.PlaceId
+local request = syn and syn.request or http_request or request
+assert(request, "No HTTP request function available")
+
+function ServerHop()
+    local JobId = game.JobId
+    local servers = {}
+    local cursor = ""
+
+    repeat
+        local url =
+            "https://games.roblox.com/v1/games/" .. PlaceId ..
+            "/servers/Public?sortOrder=Asc&limit=100" ..
+            (cursor ~= "" and "&cursor=" .. cursor or "")
+
+        local response = request({
+            Url = url,
+            Method = "GET"
+        })
+
+        local data = HttpService:JSONDecode(response.Body)
+
+        for _, server in pairs(data.data) do
+            if server.id ~= JobId and server.playing < server.maxPlayers then
+                table.insert(servers, server.id)
+            end
+        end
+
+        cursor = data.nextPageCursor
+    until cursor == nil or #servers > 0
+
+    if #servers > 0 then
+        TeleportService:TeleportToPlaceInstance(
+            PlaceId,
+            servers[math.random(1, #servers)],
+            player
+        )
+    end
+end
+
+local monstersfolder = workspace:WaitForChild("Monsters")
+
+for i, child in ipairs(monstersfolder:GetChildren()) do
+    if child.Name:match("^Vicious Bee") then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"))()
+        while true do
+            if child then
+                print("there")
+            else
+                ServerHop()
+            end
+            task.wait(1)
+        end
+    else
+        ServerHop()
+    end
+end
+return G2L["1"], require;
